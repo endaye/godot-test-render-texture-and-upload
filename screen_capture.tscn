@@ -26,5 +26,8 @@ margin_right = 862.0
 margin_bottom = 479.0
 icon = ExtResource( 1 )
 
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
 [connection signal="button_up" from="button" to="." method="_on_button_button_up"]
 [connection signal="pressed" from="button" to="." method="_on_button_pressed"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
