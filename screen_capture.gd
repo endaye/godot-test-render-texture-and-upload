@@ -40,7 +40,8 @@ func _on_button_button_up():
 
 	print("released")
 
-	send_https()
+	if img_exists.file_exists(img_path):
+		send_https()
 
 
 func send_https():
@@ -96,23 +97,26 @@ func send_https():
 	# var body := to_json({"image": "https://i.ibb.co/D1yNsNg/test.jpg"})
 
 	var body = PoolByteArray()
-	body.append_array("\r\n--WebKitFormBoundary7MA4YWxk".to_utf8())
-	body.append_array('\r\nContent-Disposition: form-data; name="image"\r\n'.to_utf8())
+	body.append_array("\r\n--WebKitFormBoundary7MA4YWxkd".to_utf8())
+	body.append_array('\r\nContent-Disposition: form-data; name="image"; filename="img.png"\r\n'.to_utf8())
+	body.append_array("Content-Type: image/png\r\n".to_utf8())
+	body.append_array("Content-Transfer-Encoding: base64\r\n".to_utf8())
 	body.append_array("\r\n".to_utf8())
-	body.append_array("https://pbs.twimg.com/media/FetQkhqakAE7u_s?format=jpg".to_utf8())
+	# body.append_array(Marshalls.raw_to_base64(file_content).to_utf8())
+	body.append_array(file_content)
 	body.append_array("\r\n".to_utf8())
-	body.append_array("--WebKitFormBoundary7MA4YWxk--".to_utf8())
+	body.append_array("--WebKitFormBoundary7MA4YWxkd--".to_utf8())
 	body.append_array("\r\n".to_utf8())
 
 	print(body.size())
 	var headers = [
 		# "Host: api.imgbb.com",
-		"Content-Type: multipart/form-data; charset=utf-8; boundary=WebKitFormBoundary7MA4YWxk",
+		"Content-Type: multipart/form-data; charset=utf-8; boundary=WebKitFormBoundary7MA4YWxkd",
 		"Content-Length: " + str(body.size()),
 		# "Cache-Control: no-cache"
 	]
 
-	print(body.get_string_from_utf8())
+	# print(body.get_string_from_utf8())
 
 	# var headers = [
 	# 	"Content-Type: multipart/form-data",
